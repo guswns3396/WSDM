@@ -1,0 +1,6 @@
+myEnv/
+
+*.swn
+*.swo
+
+.DS_Store
