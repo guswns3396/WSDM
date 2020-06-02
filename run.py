@@ -1,3 +1,4 @@
-import os
+from code.setup import setup
 
-os.system("python3 code/setup.py > log.txt")
+def main():
+	setup()
