@@ -1,4 +1,4 @@
-import code
+import code.setup
 
 def main():
     msg = "Please select from the following options:"
@@ -10,9 +10,9 @@ def main():
     userinput = input(msg)
 
     if userinput == "1":
-        code.setup.setupVenv()
+        setup.setupVenv()
     elif userinput == "2":
-        code.setup.install()
+        setup.install()
     elif userinput == "3":
         pass
     else:
