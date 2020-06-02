@@ -1,4 +1,4 @@
-import code.setup
+from code import setup
 
 def main():
     msg = "Please select from the following options:"

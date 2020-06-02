@@ -22,9 +22,4 @@ def install():
     os.system("pip install -r requirements.txt")
     print("DONE")
 
-    print("DEACTIVATING VIRTUAL ENVIRONMENT")
-    # deactivate virtual environment
-    os.system("deactivate")
-    print("DONE")
-
     return
