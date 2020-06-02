@@ -1,16 +1,18 @@
 import os
 
-def setup():
+def setupVenv():
     # create virtual environment for python
     print("CREATING VIRTUAL ENVIRONMENT")
     os.system("python3 -m venv env")
     print("DONE")
+    msg = "\nPlease activate the virtual environment by running "
+    msg += "'source env/bin/activate'"
+    msg += " before continuing with installation"
+    print(msg)
 
-    # activate virtual environment
-    print("ACTIVATING VIRTUAL ENVIRONMENT")
-    os.system("source env/bin/activate")
-    print("DONE")
+    return
 
+def install():
     # install packages
     # -----------------
     print("INSTALLING DEPENDENCIES")
