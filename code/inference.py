@@ -1,4 +1,5 @@
 import os
+import pathlib
 import shutil
 
 # ask user for path to their data
@@ -16,23 +17,20 @@ def getPathToData() -> str:
 
 # modify modelConfig.cfg
 def modifyMC() -> None:
+	path = pathlib.Path(__file__).parent.parent.absolute()
 	# get modelConfig.cfg path
-	path_mc = os.getcwd() + "deepmedic/inference_model/config/model/modelConfig.cfg"
+	path_mc = str(path)
+	path_mc += "/deepmedic/inference_model/config/model/modelConfig.cfg"
 	# find stop & append index
-	modelConfig = open(path_mc, "r")
-	content = ""
-	for line in modelConfig:
-		content += line
+	with open(path_mc,'r') as file:
+		content = file.read()
 	index1 = content.find("folderForOutput = ")
 	index2 = content.find("#  ================ MODEL PARAMETERS")
-	modelConfig.close()
 	# modify modelConfig.cfg output folder
-	path_o = os.getcwd() + "/output/"
-	modelConfig = open(path_mc, "w")
-	print(content[:index1 + len("folderForOutput = ")] + "\"" +
-		path_o + "\"" + "\n", file=modelConfig)
-	print(content[index2:], file=modelConfig)
-	modelConfig.close()
+	path_o = str(path) + "/deepmedic/inference_model/output/"
+	with open(path_mc,'w') as file:
+		print(content[:index1 + len("folderForOutput = ")] + "\"" + path_o + "\"" + "\n", file=file)
+		print(content[index2:], file=file)
 
 # modify testConfig.cfg
 def modifyTC() -> None:
