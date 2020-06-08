@@ -34,24 +34,20 @@ def modifyMC() -> None:
 
 # modify testConfig.cfg
 def modifyTC() -> None:
+	path = pathlib.Path(__file__).parent.parent.absolute()
 	# get testConfig.cfg path
-	path_tc = os.getcwd() + "/config/test/testConfig.cfg"
+	path_tc = str(path) + "/deepmedic/inference_model/config/test/testConfig.cfg"
 	# find stop & append index
-	testConfig = open(path_tc, "r")
-	content = ""
-	for line in testConfig:
-		content += line
+	with open(path_tc,'r') as file:
+		content = file.read()
 	index1 = content.find("folderForOutput = ")
 	substr = "#  [Optional] Path to a saved model, to load parameters from in the beginning of the session. If one is also specified using the command line, the latter will be used."
 	index2 = content.find(substr)
-	testConfig.close()
 	# modify testConfig.cfg output folder
-	path_o = os.getcwd() + "/output/"
-	testConfig = open(path_tc, "w")
-	print(content[:index1 + len("folderForOutput = ")] + "\"" +
-		path_o + "\"" + "\n", file=testConfig)
-	print(content[index2:], file=testConfig)
-	testConfig.close()
+	path_o = str(path) + "/deepmedic/inference_model/output/"
+	with open(path_tc,'w') as file:
+		print(content[:index1 + len("folderForOutput = ")] + "\"" + path_o + "\"" + "\n", file=file)
+		print(content[index2:], file=file)
 
 # modify names of prediction
 def modifyPred(subs: "list of subjects") -> None:
