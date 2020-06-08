@@ -17,7 +17,7 @@ def getPathToData() -> str:
 # modify modelConfig.cfg
 def modifyMC() -> None:
 	# get modelConfig.cfg path
-	path_mc = os.getcwd() + "/config/model/modelConfig.cfg"
+	path_mc = os.getcwd() + "deepmedic/inference_model/config/model/modelConfig.cfg"
 	# find stop & append index
 	modelConfig = open(path_mc, "r")
 	content = ""

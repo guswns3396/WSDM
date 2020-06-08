@@ -8,3 +8,5 @@ env/
 .idea/
 
 code/__pycache__/
+
+testcase.py
