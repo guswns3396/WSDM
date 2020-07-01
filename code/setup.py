@@ -1,5 +1,5 @@
 import os
-import pahtlib
+import pathlib
 
 def setupVenv():
     # create virtual environment for python
