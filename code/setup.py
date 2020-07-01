@@ -1,8 +1,13 @@
 import os
+import pahtlib
 
 def setupVenv():
     # create virtual environment for python
     print("CREATING VIRTUAL ENVIRONMENT")
+    # get path to package folder
+    path = pathlib.Path(__file__).parent.parent.absolute()
+    # change directory to package folder then install
+    os.chdir(path)
     os.system("python3 -m venv env")
     print("DONE")
     msg = "\nPlease activate the virtual environment by running "
