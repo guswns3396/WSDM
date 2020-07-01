@@ -102,6 +102,9 @@ def modifyCfgs(path: "path to directory of data") -> None:
 # run inference
 def runInf(path_dm: "path to deepmedic", path_data: "path to data") -> None:
 	
+	path = inference.pathlib.Path(sys.argv[1])
+	inference.os.chdir(path)
+	path = inference.pathlib.Path().absolute()
 
 	# prepare different parts of command
 	path_d = getPathToDM()
