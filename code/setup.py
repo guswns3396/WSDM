@@ -21,7 +21,10 @@ def install():
     # install packages
     # -----------------
     print("INSTALLING DEPENDENCIES")
-    # upgrade pip
+    # get path to package folder
+    path = pathlib.Path(__file__).parent.parent.absolute()
+    # change directory to package folder then install
+    os.chdir(path)
     os.system("pip install --upgrade pip")
     # install dependencies
     os.system("pip install -r requirements.txt")
