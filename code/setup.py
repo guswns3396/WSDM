@@ -10,10 +10,10 @@ def setupVenv():
     os.chdir(path)
     os.system("python3 -m venv env")
     print("DONE")
-    msg = "\nPlease activate the virtual environment by running "
-    msg += "'source env/bin/activate'"
-    msg += " before continuing with installation"
-    print(msg)
+#    msg = "\nPlease activate the virtual environment by running "
+#    msg += "'source env/bin/activate'"
+#    msg += " before continuing with installation"
+#    print(msg)
 
     return
 
