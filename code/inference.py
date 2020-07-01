@@ -13,6 +13,7 @@ def displayBIDS() -> None:
 
 # modify modelConfig.cfg
 def modifyMC() -> None:
+	# path to package directory
 	path = pathlib.Path(__file__).parent.parent.absolute()
 	# get modelConfig.cfg path
 	path_mc = str(path)
@@ -30,6 +31,7 @@ def modifyMC() -> None:
 
 # modify testConfig.cfg
 def modifyTC() -> None:
+	# path to package directory
 	path = pathlib.Path(__file__).parent.parent.absolute()
 	# get testConfig.cfg path
 	path_tc = str(path) + "/deepmedic/inference_model/config/test/testConfig.cfg"
@@ -99,6 +101,8 @@ def modifyCfgs(path: "path to directory of data") -> None:
 
 # run inference
 def runInf(path_dm: "path to deepmedic", path_data: "path to data") -> None:
+	
+
 	# prepare different parts of command
 	path_d = getPathToDM()
 	run = path_d + "deepMedicRun"
