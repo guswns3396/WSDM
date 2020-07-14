@@ -39,10 +39,10 @@ def addActivator():
     file_path = str(code_path) + "/activate_this.py"
     print("File path:", file_path)
     # get path to bin folder
-    bin_path = str(package_path + "/env/bin/")
+    bin_path = str(package_path) + "/env/bin/"
     print("env/bin directory:", bin_path)
     # add activate_this.py
-    shutil.copyfile(file_path, bin_path)
+    shutil.copyfile(file_path, bin_path + "activate_this.py")
     print("DONE")
 
 def install():
