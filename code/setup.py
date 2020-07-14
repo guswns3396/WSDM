@@ -45,20 +45,30 @@ def addActivator():
     shutil.copyfile(file_path, bin_path + "activate_this.py")
     print("DONE")
 
+    return
+
 def install():
     # install packages
     # -----------------
-    print("INSTALLING DEPENDENCIES")
+    print("ACTIVATING VENV")
     # get cwd
     cwd = os.getcwd()
     print("Current directory:", cwd)
-    # get path to package folder
-    path = pathlib.Path(__file__).parent.parent.absolute()
-    print("Package directory:", path)
-    # change directory to package folder then install
-    print("Changing directory to:", path)
-    os.chdir(path)
-    print("Installin pip and dependencies")
+    # get path to activator
+    code_path = pathlib.Path(__file__).parent.absolute()
+    package_path = code_path.parent.absolute()
+    act_path = str(package_path) + "/env/bin/activate_this.py"
+    activator = act_path
+    # activate
+    with open(activator) as f:
+        exec(f.read(), {'__file__': activator})
+    print("ACTIVATED")
+    # change directory to package directory
+    print("Package directory:", package_path)
+    os.chdir(package_path)
+    print("Changed directory to:", os.getcwd())
+
+    print("INSTALLING DEPENDENCIES")
     os.system("pip install --upgrade pip")
     # install dependencies
     os.system("pip install -r requirements.txt")
