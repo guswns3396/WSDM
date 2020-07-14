@@ -9,6 +9,7 @@ if __name__ == '__main__':
 		# setup venv
 		if sys.argv[1] == '1' and len(sys.argv) == 2:
 			setup.setupVenv()
+			setup.addActivator()
 		# install dependencies
 		elif sys.argv[1] == '2' and len(sys.argv) == 2:
 			setup.install()
