@@ -68,6 +68,8 @@ def install():
     cwd = os.getcwd()
     print("Current directory:", cwd)
     # change directory to package directory
+    code_path = pathlib.Path(__file__).parent.absolute()
+    package_path = code_path.parent.absolute()
     print("Package directory:", package_path)
     os.chdir(package_path)
     print("Changed directory to:", os.getcwd())

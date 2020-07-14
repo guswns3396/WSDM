@@ -1,5 +1,6 @@
 import unittest
 import setup
+from subprocess import Popen, PIPE
 
 class TestSetup(unittest.TestCase):
 	def setUp(self):	
@@ -69,16 +70,50 @@ class TestSetup(unittest.TestCase):
 		print("ASSERT - ADDACTIVATOR")
 		print("-"*20)
 		self.assertTrue(setup.os.path.exists(str(package_path) + "/env/bin/activate_this.py"))
+
+	def test_activate_activatesVenv(self):
+		print("ARRANGE - ACTIVATE")
+		print("-"*20)
+		code_path = setup.pathlib.Path(__file__).parent.absolute()
+		print("Path to code:", code_path)
+		setup.setupVenv()
+		setup.addActivator()
+		process = Popen(["pip","list"], stdout=PIPE)
+		pip_old = process.communicate()[0].decode("utf-8")
+
+		print("ACT - ACTIVATE")
+		print("-"*20)
+		setup.activate()
+
+		print("ASSERT - ACTIVATE")
+		print("-"*20)
+		process = Popen(["pip", "list"], stdout=PIPE)
+		pip_new = process.communicate()[0].decode("utf-8")
+		print(pip_old)
+		print(pip_new)
+		self.assertNotEqual(pip_old, pip_new)
+
 '''
 	def test_install_installsDependencies(self):
 		print("ARRANGE - INSTALL")
 		print("-"*20)
+		package_path = setup.pathlib.Path(__file__).parent.absolute().parent.absolute()
+		print("Path to package:", package_path)
 		setup.setupVenv()
 		setup.addActivator()
 
 		print("ACT - INSTALL")
 		print("-"*20)
 		setup.install()
+
+		print("ASSERT - INSTALL")
+		print("-"*20)
+		r_expected = ""
+		r_test = ""
+		with open(package_path + "/requirements.txt") as f:
+			r_expected = f.read()
+		
+		self.assertEqual(
 '''
 if __name__ == "__main__":
 	unittest.main()
