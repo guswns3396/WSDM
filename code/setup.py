@@ -47,13 +47,8 @@ def addActivator():
 
     return
 
-def install():
-    # install packages
-    # -----------------
+def activate(): 
     print("ACTIVATING VENV")
-    # get cwd
-    cwd = os.getcwd()
-    print("Current directory:", cwd)
     # get path to activator
     code_path = pathlib.Path(__file__).parent.absolute()
     package_path = code_path.parent.absolute()
@@ -63,6 +58,15 @@ def install():
     with open(activator) as f:
         exec(f.read(), {'__file__': activator})
     print("ACTIVATED")
+
+    return
+
+def install():
+    # install packages
+    # -----------------
+    # get cwd
+    cwd = os.getcwd()
+    print("Current directory:", cwd)
     # change directory to package directory
     print("Package directory:", package_path)
     os.chdir(package_path)
