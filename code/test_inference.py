@@ -87,5 +87,29 @@ class TestSetup(unittest.TestCase):
 		print(new)
 		self.assertNotEqual(old, new)
 
+	def test_modifyTC_modifiesOutputFolder(self):
+		print("ARRANGE - MODIFYTC")
+		print("-"*20)
+		package_path = setup.pathlib.Path(__file__).parent.absolute().parent.absolute()
+		path_tc = str(package_path) + "/deepmedic/inference_model/config/test/testConfig.cfg"
+		print("Path to TC:", path_tc)
+
+		print("ACT - MODIFYTC")
+		print("-"*20)
+		inference.modifyTC()
+
+		print("ASSERT - MODIFYTC")
+		print("-"*20)
+		old = "\"/ifs/loni/faculty/farshid/img/members/jack/dmtest/deepmedic/trial_3_pipeline/output/\""
+		with open(path_tc,'r') as f:
+			content = f.read()
+		index1 = content.find("folderForOutput = ")
+		substr = "#  [Optional] Path to a saved model, to load parameters from in the beginning of the session. If one is also specified using the command line, the latter will be used."
+		index2 = content.find(substr)
+		new = content[index1 + len("folderForOutput = "):index2]
+		print(old)
+		print(new)
+		self.assertNotEqual(old, new)
+
 if __name__ == "__main__":
 	unittest.main()
