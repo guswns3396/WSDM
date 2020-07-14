@@ -93,7 +93,6 @@ class TestSetup(unittest.TestCase):
 		print(pip_new)
 		self.assertNotEqual(pip_old, pip_new)
 
-'''
 	def test_install_installsDependencies(self):
 		print("ARRANGE - INSTALL")
 		print("-"*20)
@@ -101,6 +100,7 @@ class TestSetup(unittest.TestCase):
 		print("Path to package:", package_path)
 		setup.setupVenv()
 		setup.addActivator()
+		setup.activate()
 
 		print("ACT - INSTALL")
 		print("-"*20)
@@ -108,12 +108,15 @@ class TestSetup(unittest.TestCase):
 
 		print("ASSERT - INSTALL")
 		print("-"*20)
-		r_expected = ""
-		r_test = ""
-		with open(package_path + "/requirements.txt") as f:
-			r_expected = f.read()
-		
-		self.assertEqual(
-'''
+		pip_expected = ""
+		with open(str(package_path) + "/requirements.txt") as f:
+			pip_expected = f.read()
+		pip_expected = pip_expected.replace("\nsetuptools==46.4.0","")
+		process = Popen(["pip","freeze"], stdout=PIPE)
+		pip_output = process.communicate()[0].decode("utf-8")
+		print(pip_expected)
+		print(pip_output)
+		self.assertEqual(pip_expected, pip_output)
+
 if __name__ == "__main__":
 	unittest.main()
