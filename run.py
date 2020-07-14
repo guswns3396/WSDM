@@ -12,6 +12,7 @@ if __name__ == '__main__':
 			setup.addActivator()
 		# install dependencies
 		elif sys.argv[1] == '2' and len(sys.argv) == 2:
+			setup.activate()
 			setup.install()
 		# run inference
 		elif sys.argv[1] == '3' and len(sys.argv) == 3:
