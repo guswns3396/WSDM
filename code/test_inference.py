@@ -5,6 +5,10 @@ import inference
 from io import StringIO
 from unittest.mock import patch
 
+CODE_PATH = setup.pathlib.Path(__file__).parent.absolute()I
+PACKAGE_PATH = CODE_PATH.pareInt.absolute()
+DATA_PATH = str(PACKAGE_PATH) + "/data"
+
 class TestSetup(unittest.TestCase):
 	@classmethod
 	def setUpClass(cls):
@@ -20,12 +24,10 @@ class TestSetup(unittest.TestCase):
 	def tearDownClass(cls):
 		print("TEARING DOWN CLASS")
 		print("-"*20)
-		code_path = setup.pathlib.Path(__file__).parent.absolute()
-		package_path = code_path.parent.absolute()
 		cwd = setup.os.getcwd()
 		print("Current directory:", cwd)
-		print("Changing directory to package directory:", package_path)
-		setup.os.chdir(package_path)
+		print("Changing directory to package directory:", PACKAGE_PATH)
+		setup.os.chdir(PACKAGE_PATH)
 		print("Removing venv")
 		setup.os.system("rm -rf env/")
 		print("Changing directory:", cwd)
@@ -34,17 +36,25 @@ class TestSetup(unittest.TestCase):
 
 	def tearDown(self):
 		print("TEARING DOWN")
-		code_path = setup.pathlib.Path(__file__).parent.absolute()
-		package_path = str(code_path.parent.absolute())
+
+		# reset config files
 		cmd = "git checkout -- "
 		config_path = "/deepmedic/inference_model/config"
-		cmd += package_path + config_path
+		cmd += PACKAGE_PATH + config_path
 
 		setup.os.system(cmd + "/model/modelConfig.cfg")
 		setup.os.system(cmd + "/test/testConfig.cfg")
 		setup.os.system(cmd + "/test/testNamesOfPredictions.cfg")
 		setup.os.system(cmd + "/test/test_flair.cfg")
 		setup.os.system(cmd + "/test/test_t1w.cfg")
+
+		# erase test data
+		if setup.os.path.exists(DATA_PATH):
+			print("Data found - deleting")
+			setup.shutil.rmtree(DATA_PATH)
+			print("Deleted")
+		else:
+			print("Data NOT found")
 
 		print("DONE")
 
@@ -67,8 +77,7 @@ class TestSetup(unittest.TestCase):
 	def test_modifyMC_modifiesOutputFolder(self):
 		print("ARRANGE - MODIFYMC")
 		print("-"*20)
-		package_path = setup.pathlib.Path(__file__).parent.absolute().parent.absolute()
-		path_mc = str(package_path) + "/deepmedic/inference_model/config/model/modelConfig.cfg"
+		path_mc = str(PACKAGE_PATH) + "/deepmedic/inference_model/config/model/modelConfig.cfg"
 		print("Path to MC:", path_mc)
 
 		print("ACT - MODIFYMC")
@@ -90,8 +99,7 @@ class TestSetup(unittest.TestCase):
 	def test_modifyTC_modifiesOutputFolder(self):
 		print("ARRANGE - MODIFYTC")
 		print("-"*20)
-		package_path = setup.pathlib.Path(__file__).parent.absolute().parent.absolute()
-		path_tc = str(package_path) + "/deepmedic/inference_model/config/test/testConfig.cfg"
+		path_tc = str(PACKAGE_PATH) + "/deepmedic/inference_model/config/test/testConfig.cfg"
 		print("Path to TC:", path_tc)
 
 		print("ACT - MODIFYTC")
@@ -110,6 +118,33 @@ class TestSetup(unittest.TestCase):
 		print(old)
 		print(new)
 		self.assertNotEqual(old, new)
+
+	def test_modifyCfgs_modifiesPred_both(self):
+		print("ARRANGE - MODIFYCFGS (MODIFIESPRED_BOTH)")
+		print("-"*20)
+		# make test data folder
+		cwd = setup.os.getcwd()
+		setup.os.chdir(
+
+		print("ACT - MODIFYCFGS (MODIFIESPRED_BOTH)")
+		print("-"*20)
+		inference.modifyCfgs(DATA_PATH)
+
+		print("ASSERT - MODIFYCFGS (MODIFIESPRED_BOTH)")
+		print("-"*20)
+		self.assert
+
+	def test_modifyCfgs_modifiesPred_t1wOnly(self):
+		pass
+
+	def test_modifyCfgs_modifiesPred_flairOnly(self):
+		pass
+
+	def test_modifyCfgs_modifesT1w(self):
+		pass
+
+	def test_modifyCfgs_modifesFlair(self):
+		pass
 
 if __name__ == "__main__":
 	unittest.main()

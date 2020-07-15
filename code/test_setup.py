@@ -2,17 +2,18 @@ import unittest
 import setup
 from subprocess import Popen, PIPE
 
+FILE_PATH = setup.pathlib.Path(__file__).absolute()
+CODE_PATH = FILE_PATH.parent.absolute()
+PACKAGE_PATH = CODE_PATH.parent.absolute()
+
 class TestSetup(unittest.TestCase):
 	def setUp(self):	
 		print("SETTING UP")
 	
 		# print paths for verification
-		file_path = setup.pathlib.Path(__file__).absolute()
-		print("Absolute path to current file:", file_path)
-		code_path = file_path.parent.absolute()
-		print("Absolute path to directory of file:", code_path)
-		package_path = code_path.parent.absolute()
-		print("Absoluite path to directory containing directory of file:", package_path)
+		print("Absolute path to current file:", FILE_PATH)
+		print("Absolute path to directory of file:", CODE_PATH)
+		print("Absoluite path to directory containing directory of file:", PACKAGE_PATH)
 		
 	def tearDown(self):
 		print("TEARING DOWN")
@@ -22,9 +23,7 @@ class TestSetup(unittest.TestCase):
 		print("Current working directory:", cwd)
 
 		# change directory to package directory
-		# package_path => dm_package/
-		package_path = setup.pathlib.Path(__file__).parent.absolute().parent.absolute()
-		setup.os.chdir(package_path)
+		setup.os.chdir(PACKAGE_PATH)
 		print("Changed working directory to:", setup.os.getcwd())
 
 		# check if venv exists & remove
@@ -42,10 +41,7 @@ class TestSetup(unittest.TestCase):
 	def test_setupVenv_installsVenv(self):
 		print("ARRANGE - SETUPVENV")
 		print("-"*20)
-		file_path = setup.pathlib.Path(__file__).absolute()
-		code_path = file_path.parent.absolute()
-		package_path = code_path.parent.absolute()
-		venv_path = str(package_path) + "/env/bin/python3"
+		venv_path = str(PACKAGE_PATH) + "/env/bin/python3"
 		print("Path to venv python:", venv_path)
 
 		print("ACT - SETUPVENV")
@@ -59,8 +55,6 @@ class TestSetup(unittest.TestCase):
 	def test_addActivator_copiesFile(self):
 		print("ARRANGE - ADDACTIVATOR")
 		print("-"*20)
-		package_path = setup.pathlib.Path(__file__).parent.absolute().parent.absolute()
-		print("Path to package:", package_path)
 		setup.setupVenv()
 
 		print("ACT - ADDACTIVATOR")
@@ -69,13 +63,11 @@ class TestSetup(unittest.TestCase):
 
 		print("ASSERT - ADDACTIVATOR")
 		print("-"*20)
-		self.assertTrue(setup.os.path.exists(str(package_path) + "/env/bin/activate_this.py"))
+		self.assertTrue(setup.os.path.exists(str(PACKAGE_PATH) + "/env/bin/activate_this.py"))
 
 	def test_activate_activatesVenv(self):
 		print("ARRANGE - ACTIVATE")
 		print("-"*20)
-		code_path = setup.pathlib.Path(__file__).parent.absolute()
-		print("Path to code:", code_path)
 		setup.setupVenv()
 		setup.addActivator()
 		process = Popen(["pip","list"], stdout=PIPE)
@@ -96,8 +88,6 @@ class TestSetup(unittest.TestCase):
 	def test_install_installsDependencies(self):
 		print("ARRANGE - INSTALL")
 		print("-"*20)
-		package_path = setup.pathlib.Path(__file__).parent.absolute().parent.absolute()
-		print("Path to package:", package_path)
 		setup.setupVenv()
 		setup.addActivator()
 		setup.activate()
@@ -109,7 +99,7 @@ class TestSetup(unittest.TestCase):
 		print("ASSERT - INSTALL")
 		print("-"*20)
 		pip_expected = ""
-		with open(str(package_path) + "/requirements.txt") as f:
+		with open(str(PACKAGE_PATH) + "/requirements.txt") as f:
 			pip_expected = f.read()
 		pip_expected = pip_expected.replace("\nsetuptools==46.4.0","")
 		process = Popen(["pip","freeze"], stdout=PIPE)
