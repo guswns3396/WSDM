@@ -2,44 +2,37 @@ import os
 import pathlib
 import shutil
 
+CODE_PATH = pathlib.Path(__file__).parent.absolute()
+PACKAGE_PATH = CODE_PATH.parent.absolute()
+
 def setupVenv():
     # create virtual environment for python
     print("CREATING VIRTUAL ENVIRONMENT")
     # get cwd
     cwd = os.getcwd()
     print("Current directory:", cwd)
-    # get path to package folder
-    path = pathlib.Path(__file__).parent.parent.absolute()
-    print("Package directory:", path)
+    print("Package directory:", PACKAGE_PATH)
     # change directory to package folder then install
-    print("Changing directory to:", path)
-    os.chdir(path)
-    print("Creating virtual environment in the following directory:", path)
+    print("Changing directory to:", PACKAGE_PATH)
+    os.chdir(PACKAGE_PATH)
+    print("Creating virtual environment in the following directory:", PACKAGE_PATH)
     os.system("python3 -m venv env")
     # change directory back
     print("Changing directory to:", cwd)
     os.chdir(cwd)
     print("DONE")
-#    msg = "\nPlease activate the virtual environment by running "
-#    msg += "'source env/bin/activate'"
-#    msg += " before continuing with installation"
-#    print(msg)
 
     return
 
 def addActivator():
     print("ADDING ACTIVATOR FOR VENV")
-    # get path to code folder
-    code_path = pathlib.Path(__file__).parent.absolute()
-    print("Code directory:", code_path)
-    # get path to package folder
-    package_path = code_path.parent.absolute()
-    print("Package directory:", package_path)
+    print("Code directory:", CODE_PATH)
+    print("Package directory:", PACKAGE_PATH)
     # get path to activate_this file
-    file_path = str(code_path) + "/activate_this.py"
+    file_path = str(CODE_PATH) + "/activate_this.py"
     print("File path:", file_path)
     # get path to bin folder
-    bin_path = str(package_path) + "/env/bin/"
+    bin_path = str(PACKAGE_PATH) + "/env/bin/"
     print("env/bin directory:", bin_path)
     # add activate_this.py
     shutil.copyfile(file_path, bin_path + "activate_this.py")
@@ -49,11 +42,8 @@ def addActivator():
 
 def activate(): 
     print("ACTIVATING VENV")
-    # get path to activator
-    code_path = pathlib.Path(__file__).parent.absolute()
-    package_path = code_path.parent.absolute()
-    act_path = str(package_path) + "/env/bin/activate_this.py"
-    activator = act_path
+    activator = str(PACKAGE_PATH) + "/env/bin/activate_this.py"
+
     # activate
     with open(activator) as f:
         exec(f.read(), {'__file__': activator})
@@ -67,11 +57,8 @@ def install():
     # get cwd
     cwd = os.getcwd()
     print("Current directory:", cwd)
-    # change directory to package directory
-    code_path = pathlib.Path(__file__).parent.absolute()
-    package_path = code_path.parent.absolute()
-    print("Package directory:", package_path)
-    os.chdir(package_path)
+    print("Package directory:", PACKAGE_PATH)
+    os.chdir(PACKAGE_PATH)
     print("Changed directory to:", os.getcwd())
 
     print("INSTALLING DEPENDENCIES")
