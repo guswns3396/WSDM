@@ -14,6 +14,7 @@ if __name__ == '__main__':
 			setup.install()
 		# run inference
 		elif sys.argv[1] == '2' and len(sys.argv) == 3:
+			setup.activate()
 			pass
 		else:
 			print("Invalid command line argument(s)")
