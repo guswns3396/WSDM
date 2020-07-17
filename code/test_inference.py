@@ -5,8 +5,8 @@ import inference
 from io import StringIO
 from unittest.mock import patch
 
-CODE_PATH = setup.pathlib.Path(__file__).parent.absolute()I
-PACKAGE_PATH = CODE_PATH.pareInt.absolute()
+CODE_PATH = setup.pathlib.Path(__file__).parent.absolute()
+PACKAGE_PATH = CODE_PATH.parent.absolute()
 DATA_PATH = str(PACKAGE_PATH) + "/data"
 
 class TestSetup(unittest.TestCase):
@@ -14,10 +14,12 @@ class TestSetup(unittest.TestCase):
 	def setUpClass(cls):
 		print("SETTING UP CLASS")
 		print("-"*20)
+		'''
 		setup.setupVenv()
 		setup.addActivator()
 		setup.activate()
 		setup.install()
+		'''
 		print("DONE")
 
 	@classmethod
@@ -34,13 +36,31 @@ class TestSetup(unittest.TestCase):
 		setup.os.chdir(cwd)
 		print("DONE")
 
+	def setUp(self):
+		print("SETTING UP")
+		print("Path to code directory:", CODE_PATH)
+		print("Path to package directory:", PACKAGE_PATH)
+		print("Path to data directory:", DATA_PATH)
+
+		# make test data folder
+		cwd = setup.os.getcwd()
+		print("Current directory:",cwd)
+		setup.os.chdir(PACKAGE_PATH)
+		print("Changed directory to:", PACKAGE_PATH)
+		print("Creating data directory")
+		setup.os.system("mkdir data")
+		setup.os.chdir(cwd)
+		print("Changed directory to:",cwd)
+
+		print("DONE")
+
 	def tearDown(self):
 		print("TEARING DOWN")
 
 		# reset config files
 		cmd = "git checkout -- "
 		config_path = "/deepmedic/inference_model/config"
-		cmd += PACKAGE_PATH + config_path
+		cmd += str(PACKAGE_PATH) + config_path
 
 		setup.os.system(cmd + "/model/modelConfig.cfg")
 		setup.os.system(cmd + "/test/testConfig.cfg")
@@ -49,12 +69,14 @@ class TestSetup(unittest.TestCase):
 		setup.os.system(cmd + "/test/test_t1w.cfg")
 
 		# erase test data
-		if setup.os.path.exists(DATA_PATH):
-			print("Data found - deleting")
-			setup.shutil.rmtree(DATA_PATH)
-			print("Deleted")
-		else:
-			print("Data NOT found")
+		cwd = setup.os.getcwd()
+		print("Current directory:", cwd)
+		print("Changing directory to package directory:", PACKAGE_PATH)
+		setup.os.chdir(PACKAGE_PATH)
+		print("Removing data")
+		setup.os.system("rm -rf data/")
+		print("Changing directory:", cwd)
+		setup.os.chdir(cwd)
 
 		print("DONE")
 
@@ -124,7 +146,16 @@ class TestSetup(unittest.TestCase):
 		print("-"*20)
 		# make test data folder
 		cwd = setup.os.getcwd()
-		setup.os.chdir(
+		print("Current directory:",cwd)
+		setup.os.chdir(PACKAGE_PATH)
+		print("Changed directory to:", PACKAGE_PATH)
+		print("Creating data directory")
+		subjects = ["sub-01"]
+		for subject in subjects:
+			setup.os.mkdir("data/" + subject)
+			setup.os.mkdir("data/" + subject + "/anat")
+			setup.os.system("touch data/" + subject + "/anat/" + subject + "_FLAIR.nii.gz")
+			setup.os.system("touch data/" + subject + "/anat/" + subject + "_T1W.nii.gz")
 
 		print("ACT - MODIFYCFGS (MODIFIESPRED_BOTH)")
 		print("-"*20)
@@ -132,13 +163,105 @@ class TestSetup(unittest.TestCase):
 
 		print("ASSERT - MODIFYCFGS (MODIFIESPRED_BOTH)")
 		print("-"*20)
-		self.assert
+		path_pred = str(PACKAGE_PATH) + "/deepmedic/inference_model/config/test/testNamesOfPredictions.cfg"
+		with open(path_pred) as f:
+			content = f.read()
+		output = content.split("\n")
+		output.pop()
+		expected = []
+		for subject in subjects:
+			expected.append(subject + "_WMH.nii.gz")
+		self.assertEqual(expected, output)
 
 	def test_modifyCfgs_modifiesPred_t1wOnly(self):
-		pass
+		print("ARRANGE - MODIFYCFGS (MODIFIESPRED_T1WONLY)")
+		print("-"*20)
+		# make test data folder
+		cwd = setup.os.getcwd()
+		print("Current directory:",cwd)
+		setup.os.chdir(PACKAGE_PATH)
+		print("Changed directory to:", PACKAGE_PATH)
+		print("Creating data directory")
+		subjects = ["sub-01"]
+		for subject in subjects:
+			setup.os.mkdir("data/" + subject)
+			setup.os.mkdir("data/" + subject + "/anat")
+			setup.os.system("touch data/" + subject + "/anat/" + subject + "_T1W.nii.gz")
+
+		print("ACT - MODIFYCFGS (MODIFIESPRED_T1WONLY)")
+		print("-"*20)
+		inference.modifyCfgs(DATA_PATH)
+
+		print("ASSERT - MODIFYCFGS (MODIFIESPRED_T1WONLY)")
+		print("-"*20)
+		path_pred = str(PACKAGE_PATH) + "/deepmedic/inference_model/config/test/testNamesOfPredictions.cfg"
+		with open(path_pred) as f:
+			content = f.read()
+		output = content.split("\n")
+		output.pop()
+		expected = []
+		self.assertEqual(expected, output)
 
 	def test_modifyCfgs_modifiesPred_flairOnly(self):
-		pass
+		print("ARRANGE - MODIFYCFGS (MODIFIESPRED_FLAIRONLY)")
+		print("-"*20)
+		# make test data folder
+		cwd = setup.os.getcwd()
+		print("Current directory:",cwd)
+		setup.os.chdir(PACKAGE_PATH)
+		print("Changed directory to:", PACKAGE_PATH)
+		print("Creating data directory")
+		subjects = ["sub-01"]
+		for subject in subjects:
+			setup.os.mkdir("data/" + subject)
+			setup.os.mkdir("data/" + subject + "/anat")
+			setup.os.system("touch data/" + subject + "/anat/" + subject + "_FLAIR.nii.gz")
+
+		print("ACT - MODIFYCFGS (MODIFIESPRED_FLAIRONLY)")
+		print("-"*20)
+		inference.modifyCfgs(DATA_PATH)
+
+		print("ASSERT - MODIFYCFGS (MODIFIESPRED_FLAIRONLY)")
+		print("-"*20)
+		path_pred = str(PACKAGE_PATH) + "/deepmedic/inference_model/config/test/testNamesOfPredictions.cfg"
+		with open(path_pred) as f:
+			content = f.read()
+		output = content.split("\n")
+		output.pop()
+		expected = []
+		self.assertEqual(expected, output)
+
+	def test_modifyCfgs_modifiesPred_multiple(self):
+		print("ARRANGE - MODIFYCFGS (MODIFIESPRED_MULTIPLE)")
+		print("-"*20)
+		# make test data folder
+		cwd = setup.os.getcwd()
+		print("Current directory:",cwd)
+		setup.os.chdir(PACKAGE_PATH)
+		print("Changed directory to:", PACKAGE_PATH)
+		print("Creating data directory")
+		subjects = ["sub-01","sub-02","sub-03"]
+		for subject in subjects:
+			setup.os.mkdir("data/" + subject)
+			setup.os.mkdir("data/" + subject + "/anat")
+		setup.os.system("touch data/sub-01/anat/sub-01_FLAIR.nii.gz")
+		setup.os.system("touch data/sub-01/anat/sub-01_T1W.nii.gz")
+		setup.os.system("touch data/sub-02/anat/sub-02_FLAIR.nii.gz")
+		setup.os.system("touch data/sub-03/anat/sub-03_T1W.nii.gz")
+
+		print("ACT - MODIFYCFGS (MODIFIESPRED_MULTIPLE)")
+		print("-"*20)
+		inference.modifyCfgs(DATA_PATH)
+
+		print("ASSERT - MODIFYCFGS (MODIFIESPRED_MULTIPLE)")
+		print("-"*20)
+		path_pred = str(PACKAGE_PATH) + "/deepmedic/inference_model/config/test/testNamesOfPredictions.cfg"
+		with open(path_pred) as f:
+			content = f.read()
+		output = content.split("\n")
+		output.pop()
+		expected = ["sub-01_WMH.nii.gz"]
+		self.assertEqual(expected, output)
 
 	def test_modifyCfgs_modifesT1w(self):
 		pass
