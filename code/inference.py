@@ -1,6 +1,8 @@
 import os
 import pathlib
-import shutil
+
+CODE_PATH = pathlib.Path(__file__).parent.absolute()
+PACKAGE_PATH = CODE_PATH.parent.absolute()
 
 # display required BIDS format
 def displayBIDS() -> None:
@@ -13,10 +15,8 @@ def displayBIDS() -> None:
 
 # modify modelConfig.cfg
 def modifyMC() -> None:
-	# path to package directory
-	path = pathlib.Path(__file__).parent.parent.absolute()
 	# get modelConfig.cfg path
-	path_mc = str(path)
+	path_mc = str(PACKAGE_PATH)
 	path_mc += "/deepmedic/inference_model/config/model/modelConfig.cfg"
 	# find stop & append index
 	with open(path_mc,'r') as file:
@@ -24,17 +24,15 @@ def modifyMC() -> None:
 	index1 = content.find("folderForOutput = ")
 	index2 = content.find("#  ================ MODEL PARAMETERS")
 	# modify modelConfig.cfg output folder
-	path_o = str(path) + "/deepmedic/inference_model/output/"
+	path_o = str(PACKAGE_PATH) + "/deepmedic/inference_model/output/"
 	with open(path_mc,'w') as file:
 		print(content[:index1 + len("folderForOutput = ")] + "\"" + path_o + "\"" + "\n", file=file)
 		print(content[index2:], file=file)
 
 # modify testConfig.cfg
 def modifyTC() -> None:
-	# path to package directory
-	path = pathlib.Path(__file__).parent.parent.absolute()
 	# get testConfig.cfg path
-	path_tc = str(path) + "/deepmedic/inference_model/config/test/testConfig.cfg"
+	path_tc = str(PACKAGE_PATH) + "/deepmedic/inference_model/config/test/testConfig.cfg"
 	# find stop & append index
 	with open(path_tc,'r') as file:
 		content = file.read()
@@ -42,26 +40,32 @@ def modifyTC() -> None:
 	substr = "#  [Optional] Path to a saved model, to load parameters from in the beginning of the session. If one is also specified using the command line, the latter will be used."
 	index2 = content.find(substr)
 	# modify testConfig.cfg output folder
-	path_o = str(path) + "/deepmedic/inference_model/output/"
+	path_o = str(PACKAGE_PATH) + "/deepmedic/inference_model/output/"
 	with open(path_tc,'w') as file:
 		print(content[:index1 + len("folderForOutput = ")] + "\"" + path_o + "\"" + "\n", file=file)
 		print(content[index2:], file=file)
 
+# get absolute path to data
+def getAbsolutePath(data_path: "path to directory of data") -> str:
+	cwd = os.getcwd()
+	os.chdir(data_path)
+	data_path = os.getcwd()
+	os.chdir(cwd)
+	return data_path
+
 # get list of subjects
-def getSubjects(path: "path to directory of data") -> list:
+def getSubjects(data_path: "path to directory of data") -> list:
 	subjects = []
-	dirlist = os.listdir(str(path))
+	dirlist = os.listdir(str(data_path))
 	for file in dirlist:
-		if os.path.isdir(str(path) + "/" + file):
+		if os.path.isdir(str(data_path) + "/" + file):
 			subjects.append(file)
 	subjects.sort()
 	return subjects
 
 # modify names of prediction
 def modifyPred(subjects: "list of subjects") -> None:
-	# get path to pred cfg
-	path = pathlib.Path(__file__).parent.parent.absolute()
-	path_pd = str(path) + "/deepmedic/inference_model/config/test/testNamesOfPredictions.cfg"
+	path_pd = str(PACKAGE_PATH) + "/deepmedic/inference_model/config/test/testNamesOfPredictions.cfg"
 	# open cfg file for writing
 	with open(path_pd,'w') as file:
 		# write for each subject
@@ -70,19 +74,17 @@ def modifyPred(subjects: "list of subjects") -> None:
 			print(name, file=file)
 
 # modify test channels & prediction
-def modifyCfgs(path: "path to directory of data") -> None:
-	# get path to channel cfg
-	path_cfg = pathlib.Path(__file__).parent.parent.absolute()
+def modifyCfgs(data_path: "path to directory of data") -> None:
 	# channel cfgs
-	path_flair = str(path_cfg) + "/deepmedic/inference_model/config/test/test_flair.cfg"
-	path_t1w = str(path_cfg) + "/deepmedic/inference_model/config/test/test_t1w.cfg"
+	path_flair = str(PACKAGE_PATH) + "/deepmedic/inference_model/config/test/test_flair.cfg"
+	path_t1w = str(PACKAGE_PATH) + "/deepmedic/inference_model/config/test/test_t1w.cfg"
 	path_cfgs = [path_flair, path_t1w]
 	# get all subjects
-	subjects_all = getSubjects(path)
+	subjects_all = getSubjects(data_path)
 	subjects = []
 	# make sure t1w and flair images are both present
 	for subject in subjects_all:
-		image_path = str(path) + "/" + subject + "/anat"
+		image_path = str(data_path) + "/" + subject + "/anat"
 		hasT1W = os.path.isfile(image_path + "/" + subject + "_T1W.nii.gz")
 		hasFLAIR = os.path.isfile(image_path + "/" + subject + "_FLAIR.nii.gz")
 		if hasT1W and hasFLAIR:
@@ -94,28 +96,25 @@ def modifyCfgs(path: "path to directory of data") -> None:
 	for i in range(0, len(path_cfgs)):
 		with open(path_cfgs[i],'w') as file:
 			for subject in subjects:
-				img = str(path) + "/" + subject + "/anat/" + subject + "_" + modalities[i] + ".nii.gz"
+				img = str(data_path) + "/" + subject + "/anat/" + subject + "_" + modalities[i] + ".nii.gz"
 				print(img, file=file)
 	# modify pred cfg
 	modifyPred(subjects)
 
 # run inference
-def runInf(path_dm: "path to deepmedic", path_data: "path to data") -> None:
-	
-	path = inference.pathlib.Path(sys.argv[1])
-	inference.os.chdir(path)
-	path = inference.pathlib.Path().absolute()
-
+def runInf() -> None:
+	# get path to deepmedic
+	path_dm = PACKAGE_PATH + "/deepmedic"
 	# prepare different parts of command
-	path_d = getPathToDM()
-	run = path_d + "deepMedicRun"
-	model = "-model " + os.getcwd() + "/config/model/modelConfig.cfg"
-	test = "-test " + os.getcwd() + "/config/test/testConfig.cfg"
-	load = "-load " + os.getcwd() + "/output/saved_models/train_t1w+flair/"
+	run = path_dm + "/" + "deepMedicRun"
+	model = "-model " +  path_dm + "/inference_model/config/model/modelConfig.cfg"
+	test = "-test " + path_dm + "/inference_model/config/test/testConfig.cfg"
+	load = "-load " + path_dm + "/inference_model/output/saved_models/train_t1w+flair/"
 	load += "model_t1w+flair.train_t1w+flair.final.2019-11-01.11.44.09.274761.model.ckpt"
-	# ask for which GPU to use
-	dev = "-dev cuda" + input("Which GPU # to use? ")
+	dev = "-dev cuda"
+	dev += input("Which GPU to use? ")
 	# run command for inference
+	# TODO: specify directory for out.txt
 	os.system(run + " " +  model + " " + test + " " +  load + " " + dev + " >& out.txt &")
 	print("Running inference. You can check the progress using 'cat out.txt | less'")
 	print("Or 'ps aux | grep -i myUserName' to check if the process is still running")

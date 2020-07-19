@@ -141,6 +141,31 @@ class TestSetup(unittest.TestCase):
 		print(new)
 		self.assertNotEqual(old, new)
 
+	def test_getAbsolutePath_getsAbsolutePathToDirectory(self):
+		print("ARRANGE - GETABSOLUTEPATH")
+		print("-"*20)
+		# make test data folder
+		cwd = setup.os.getcwd()
+		print("Current directory:",cwd)
+		setup.os.chdir(PACKAGE_PATH)
+		print("Changed directory to:", PACKAGE_PATH)
+		print("Creating data directory")
+		subjects = ["sub-01","sub-02","sub-03"]
+		for subject in subjects:
+			setup.os.mkdir("data/" + subject)
+		relative_path = "../dm_package/./data"
+
+		print("ACT - GETABSOLUTEPATH")
+		print("-"*20)
+		output = inference.getAbsolutePath(relative_path)
+		setup.os.chdir(cwd)
+		print("Changed directory to:", cwd)
+
+		print("ASSERT - GETABSOLUTEPATH")
+		print("-"*20)
+		expected = str(PACKAGE_PATH) + "/data"
+		self.assertEqual(expected,output)
+
 	def test_getSubjects_getsAllSubjectFolders(self):
 		print("ARRANGE - GETSUBJECTS")
 		print("-"*20)	
