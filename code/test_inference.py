@@ -141,6 +141,28 @@ class TestSetup(unittest.TestCase):
 		print(new)
 		self.assertNotEqual(old, new)
 
+	def test_getSubjects_getsAllSubjectFolders(self):
+		print("ARRANGE - GETSUBJECTS")
+		print("-"*20)	
+		# make test data folder
+		cwd = setup.os.getcwd()
+		print("Current directory:",cwd)
+		setup.os.chdir(PACKAGE_PATH)
+		print("Changed directory to:", PACKAGE_PATH)
+		print("Creating data directory")
+		subjects = ["sub-01","sub-02","sub-03"]
+		for subject in subjects:
+			setup.os.mkdir("data/" + subject)
+		setup.os.chdir(cwd)
+		print("Changed directory to:", cwd)
+
+		print("ACT - GETSUBJECTS")
+		print("-"*20)
+		
+
+		print("ASSERT - GETSUBJECTS")
+		print("-"*20)
+
 	def test_modifyCfgs_modifiesPred_all(self):
 		print("ARRANGE - MODIFYCFGS (MODIFIESPRED_ALL)")
 		print("-"*20)
@@ -156,6 +178,8 @@ class TestSetup(unittest.TestCase):
 			setup.os.mkdir("data/" + subject + "/anat")
 			setup.os.system("touch data/" + subject + "/anat/" + subject + "_FLAIR.nii.gz")
 			setup.os.system("touch data/" + subject + "/anat/" + subject + "_T1W.nii.gz")
+		setup.os.chdir(cwd)
+		print("Changed directory to:", cwd)
 
 		print("ACT - MODIFYCFGS (MODIFIESPRED_ALL)")
 		print("-"*20)
@@ -190,6 +214,8 @@ class TestSetup(unittest.TestCase):
 		setup.os.system("touch data/sub-01/anat/sub-01_T1W.nii.gz")
 		setup.os.system("touch data/sub-02/anat/sub-02_FLAIR.nii.gz")
 		setup.os.system("touch data/sub-03/anat/sub-03_T1W.nii.gz")
+		setup.os.chdir(cwd)
+		print("Changed directory to:", cwd)
 
 		print("ACT - MODIFYCFGS (MODIFIESPRED_COMBINATION)")
 		print("-"*20)
@@ -220,6 +246,8 @@ class TestSetup(unittest.TestCase):
 			setup.os.mkdir("data/" + subject + "/anat")
 			setup.os.system("touch data/" + subject + "/anat/" + subject + "_FLAIR.nii.gz")
 			setup.os.system("touch data/" + subject + "/anat/" + subject + "_T1W.nii.gz")
+		setup.os.chdir(cwd)
+		print("Changed directory to:", cwd)
 
 		print("ACT - MODIFYCFGS (MODIFIEST1W_ALL)")
 		print("-"*20)
@@ -254,6 +282,8 @@ class TestSetup(unittest.TestCase):
 		setup.os.system("touch data/sub-01/anat/sub-01_T1W.nii.gz")
 		setup.os.system("touch data/sub-02/anat/sub-02_FLAIR.nii.gz")
 		setup.os.system("touch data/sub-03/anat/sub-03_T1W.nii.gz")
+		setup.os.chdir(cwd)
+		print("Changed directory to:", cwd)
 
 		print("ACT - MODIFYCFGS (MODIFIEST1W_COMBINATION)")
 		print("-"*20)
@@ -284,6 +314,8 @@ class TestSetup(unittest.TestCase):
 			setup.os.mkdir("data/" + subject + "/anat")
 			setup.os.system("touch data/" + subject + "/anat/" + subject + "_FLAIR.nii.gz")
 			setup.os.system("touch data/" + subject + "/anat/" + subject + "_T1W.nii.gz")
+		setup.os.chdir(cwd)
+		print("Changed directory to:", cwd)
 
 		print("ACT - MODIFYCFGS (MODIFIESFLAIR_ALL)")
 		print("-"*20)
@@ -318,6 +350,8 @@ class TestSetup(unittest.TestCase):
 		setup.os.system("touch data/sub-01/anat/sub-01_T1W.nii.gz")
 		setup.os.system("touch data/sub-02/anat/sub-02_FLAIR.nii.gz")
 		setup.os.system("touch data/sub-03/anat/sub-03_T1W.nii.gz")
+		setup.os.chdir(cwd)
+		print("Changed directory to:", cwd)
 
 		print("ACT - MODIFYCFGS (MODIFIESFLAIR_COMBINATION)")
 		print("-"*20)
