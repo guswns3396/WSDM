@@ -14,7 +14,15 @@ if __name__ == '__main__':
 			setup.install()
 		# run inference
 		elif sys.argv[1] == '2' and len(sys.argv) == 3:
+			inference.displayBIDS()
+
 			setup.activate()
-			pass
+
+			inference.modifyMC()
+			inference.modifyTC()
+
+			inference.modifyCfgs(inference.getAbsolutePath(sys.argv[2]))
+
+			inference.runInf()
 		else:
 			print("Invalid command line argument(s)")

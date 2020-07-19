@@ -104,7 +104,7 @@ def modifyCfgs(data_path: "path to directory of data") -> None:
 # run inference
 def runInf() -> None:
 	# get path to deepmedic
-	path_dm = PACKAGE_PATH + "/deepmedic"
+	path_dm = str(PACKAGE_PATH) + "/deepmedic"
 	# prepare different parts of command
 	run = path_dm + "/" + "deepMedicRun"
 	model = "-model " +  path_dm + "/inference_model/config/model/modelConfig.cfg"
@@ -115,6 +115,6 @@ def runInf() -> None:
 	dev += input("Which GPU to use? ")
 	# run command for inference
 	# TODO: specify directory for out.txt
-	os.system(run + " " +  model + " " + test + " " +  load + " " + dev + " >& out.txt &")
+	os.system(run + " " +  model + " " + test + " " +  load + " " + dev + " >& " + str(PACKAGE_PATH) + "/out.txt &")
 	print("Running inference. You can check the progress using 'cat out.txt | less'")
-	print("Or 'ps aux | grep -i myUserName' to check if the process is still running")
+	print("Or 'jobs' to check if the process is still running")
