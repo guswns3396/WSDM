@@ -158,10 +158,12 @@ class TestSetup(unittest.TestCase):
 
 		print("ACT - GETSUBJECTS")
 		print("-"*20)
-		
+		output = inference.getSubjects(DATA_PATH)
 
 		print("ASSERT - GETSUBJECTS")
 		print("-"*20)
+		expected = subjects
+		self.assertEqual(expected,output)
 
 	def test_modifyCfgs_modifiesPred_all(self):
 		print("ARRANGE - MODIFYCFGS (MODIFIESPRED_ALL)")
