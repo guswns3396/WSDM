@@ -114,7 +114,6 @@ def runInf() -> None:
 	dev = "-dev cuda"
 	dev += input("Which GPU to use? ")
 	# run command for inference
-	# TODO: specify directory for out.txt
-	os.system(run + " " +  model + " " + test + " " +  load + " " + dev + " >& " + str(PACKAGE_PATH) + "/out.txt &")
-	print("Running inference. You can check the progress using 'cat out.txt | less'")
-	print("Or 'jobs' to check if the process is still running")
+	os.system(run + " " +  model + " " + test + " " +  load + " " + dev + " >& " + str(PACKAGE_PATH) + "/log.txt &")
+	print("Running inference. You can check the progress using by looking at 'log.txt' in the package directory")
+	print("Or 'ps aux | grep -i myUserName' to check if the process is still running")
