@@ -102,6 +102,7 @@ class TestSetup(unittest.TestCase):
 		with open(str(PACKAGE_PATH) + "/requirements.txt") as f:
 			pip_expected = f.read()
 		pip_expected = pip_expected.replace("\nsetuptools==46.4.0","")
+		pip_expected = pip_expected.replace("\npip==20.1.1","")
 		process = Popen(["pip","freeze"], stdout=PIPE)
 		pip_output = process.communicate()[0].decode("utf-8")
 		print(pip_expected)
