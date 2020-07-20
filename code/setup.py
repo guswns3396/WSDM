@@ -62,7 +62,6 @@ def install():
     print("Changed directory to:", os.getcwd())
 
     print("INSTALLING DEPENDENCIES")
-    os.system("pip install --upgrade pip")
     # install dependencies
     os.system("pip install -r requirements.txt")
     # change directory back
