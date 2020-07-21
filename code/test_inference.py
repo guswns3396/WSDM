@@ -32,6 +32,9 @@ class TestSetup(unittest.TestCase):
 		setup.os.chdir(PACKAGE_PATH)
 		print("Removing venv")
 		setup.os.system("rm -rf env/")
+		print("Removing output")
+		setup.os.system("rm -rf deepmedic/inference_model/output/predictions")
+		setup.os.system("rm -rf output")
 		print("Changing directory:", cwd)
 		setup.os.chdir(cwd)
 		print("DONE")
@@ -393,6 +396,37 @@ class TestSetup(unittest.TestCase):
 		output.pop()
 		expected = [DATA_PATH + "/sub-01/anat/sub-01_FLAIR.nii.gz"]
 		self.assertEqual(expected, output)
+
+	def test_moveOutput_movesSegmFiles(self):
+		print("ARRANGE - MOVEOUTPUT")
+		print("-"*20)
+		cwd = setup.os.getcwd()
+		output_path = str(PACKAGE_PATH) + "/deepmedic/inference_model/output"	
+		print("Current directory:",cwd)
+		setup.os.chdir(output_path)
+		print("Changed directory to:", output_path)
+		print("Creating output directory")
+		setup.os.mkdir("predictions")
+		setup.os.mkdir("predictions/test_t1w+flair")
+		setup.os.mkdir("predictions/test_t1w+flair/predictions")
+		output_path += "/predictions/test_t1w+flair/predictions"
+		subjects = ["sub-01","sub-02","sub-03"]
+		for subject in subjects:
+			setup.os.system("touch " + output_path + "/" + subject + "_WMH_Segm.nii.gz")
+		setup.os.chdir(cwd)
+		print("Changed directory to:", cwd)
+
+		print("ACT - MOVEOUTPUT")
+		print("-"*20)
+		inference.moveOutput()
+
+		print("ASSERT - MOVEOUTPUT")
+		print("-"*20)
+		isCorrect = True
+		for subject in subjects:
+			temp = setup.os.path.isfile(str(PACKAGE_PATH) + "/output/" + subject + "_WMH.nii.gz")
+			isCorrect = isCorrect and temp
+		self.assertTrue(isCorrect)
 
 if __name__ == "__main__":
 	unittest.main()

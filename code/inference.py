@@ -117,3 +117,13 @@ def runInf() -> None:
 	os.system(run + " " +  model + " " + test + " " +  load + " " + dev + " >& " + str(PACKAGE_PATH) + "/log.txt &")
 	print("Running inference. You can check the progress using by looking at 'log.txt' in the package directory")
 	print("Or 'ps aux | grep -i myUserName' to check if the process is still running")
+
+def moveOutput() -> None:
+	path_output = str(PACKAGE_PATH) + "/deepmedic/inference_model/output/predictions/test_t1w+flair/predictions"
+	cwd = os.getcwd()
+	os.chdir(PACKAGE_PATH)
+	os.mkdir("output")
+	os.chdir(path_output)
+	os.system("rename _WMH_Segm.nii.gz _WMH.nii.gz *_WMH_Segm.nii.gz")
+	os.system("mv *_WMH.nii.gz " + str(PACKAGE_PATH) + "/output")
+	os.chdir(cwd)
