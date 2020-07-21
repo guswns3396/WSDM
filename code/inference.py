@@ -114,9 +114,8 @@ def runInf() -> None:
 	dev = "-dev cuda"
 	dev += input("Which GPU to use? ")
 	# run command for inference
-	os.system(run + " " +  model + " " + test + " " +  load + " " + dev + " >& " + str(PACKAGE_PATH) + "/log.txt &")
-	print("Running inference. You can check the progress using by looking at 'log.txt' in the package directory")
-	print("Or 'ps aux | grep -i myUserName' to check if the process is still running")
+	os.system(run + " " +  model + " " + test + " " +  load + " " + dev + " >& " + str(PACKAGE_PATH) + "/log.txt")
+	print("Inference finished - you can check the result in 'log.txt'")
 
 def moveOutput() -> None:
 	path_output = str(PACKAGE_PATH) + "/deepmedic/inference_model/output/predictions/test_t1w+flair/predictions"
