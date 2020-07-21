@@ -129,3 +129,14 @@ def moveOutput() -> None:
 	os.system("mv *_WMH.nii.gz " + str(PACKAGE_PATH) + "/output")
 	os.system("rm *")
 	os.chdir(cwd)
+
+def revertCfgs() -> None:
+	cwd = os.getcwd()
+	os.chdir(PACKAGE_PATH)
+	files = "deepmedic/inference_model/config/model/modelConfig.cfg"
+	files += " deepmedic/inference_model/config/test/testConfig.cfg"
+	files += " deepmedic/inference_model/config/test/testNamesOfPredictions.cfg"
+	files += " deepmedic/inference_model/config/test/test_flair.cfg"
+	files += " deepmedic/inference_model/config/test/test_t1w.cfg"
+	os.system("git checkout -- " + files)
+	os.chdir(cwd)

@@ -26,5 +26,7 @@ if __name__ == '__main__':
 			inference.runInf()
 
 			inference.moveOutput()
+
+			inference.revertCfgs()
 		else:
 			print("Invalid command line argument(s)")
