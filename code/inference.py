@@ -114,6 +114,7 @@ def runInf() -> None:
 	dev = "-dev cuda"
 	dev += input("Which GPU to use? ")
 	# run command for inference
+	print("Running inference - please wait...")
 	os.system(run + " " +  model + " " + test + " " +  load + " " + dev + " >& " + str(PACKAGE_PATH) + "/log.txt")
 	print("Inference finished - you can check the result in 'log.txt'")
 
