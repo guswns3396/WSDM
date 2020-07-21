@@ -13,7 +13,7 @@ if __name__ == '__main__':
 			setup.activate()
 			setup.install()
 		# run inference
-		elif sys.argv[1] == '2' and len(sys.argv) == 3:
+		elif sys.argv[1] == '2' and len(sys.argv) == 4:
 			inference.displayBIDS()
 
 			setup.activate()
@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
 			inference.modifyCfgs(inference.getAbsolutePath(sys.argv[2]))
 
-			inference.runInf()
+			inference.runInf(sys.argv[3])
 
 			inference.moveOutput()
 

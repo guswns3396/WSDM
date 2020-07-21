@@ -102,7 +102,7 @@ def modifyCfgs(data_path: "path to directory of data") -> None:
 	modifyPred(subjects)
 
 # run inference
-def runInf() -> None:
+def runInf(gpu: "str for which gpu to use") -> None:
 	# get path to deepmedic
 	path_dm = str(PACKAGE_PATH) + "/deepmedic"
 	# prepare different parts of command
@@ -111,11 +111,12 @@ def runInf() -> None:
 	test = "-test " + path_dm + "/inference_model/config/test/testConfig.cfg"
 	load = "-load " + path_dm + "/inference_model/output/saved_models/train_t1w+flair/"
 	load += "model_t1w+flair.train_t1w+flair.final.2019-11-01.11.44.09.274761.model.ckpt"
-	dev = "-dev cuda"
-	dev += input("Which GPU to use? ")
+	dev = ""
+	if gpu != "-1":
+		dev = " -dev cuda" + gpu
 	# run command for inference
 	print("Running inference - please wait...")
-	os.system(run + " " +  model + " " + test + " " +  load + " " + dev + " >& " + str(PACKAGE_PATH) + "/log.txt")
+	os.system(run + " " +  model + " " + test + " " +  load + dev + " >& " + str(PACKAGE_PATH) + "/log.txt")
 	print("Inference finished - you can check the log in 'log.txt' or the results in 'output/'")
 
 def moveOutput() -> None:
