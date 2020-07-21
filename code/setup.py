@@ -63,7 +63,6 @@ def install():
 
     print("INSTALLING DEPENDENCIES")
     # install dependencies
-    os.system("pip install --upgrade pip")
     os.system("pip install -r requirements.txt")
     # change directory back
     print("Changing directory to:", cwd)
