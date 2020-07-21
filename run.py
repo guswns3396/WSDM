@@ -24,5 +24,7 @@ if __name__ == '__main__':
 			inference.modifyCfgs(inference.getAbsolutePath(sys.argv[2]))
 
 			inference.runInf()
+
+			inference.moveOutput()
 		else:
 			print("Invalid command line argument(s)")
