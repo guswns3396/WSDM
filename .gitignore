@@ -1,4 +1,5 @@
 env/
+output/
 
 *.swn
 *.swo
@@ -9,4 +10,4 @@ env/
 
 code/__pycache__/
 
-testcase.py
+log.txt
