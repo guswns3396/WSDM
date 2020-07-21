@@ -116,14 +116,16 @@ def runInf() -> None:
 	# run command for inference
 	print("Running inference - please wait...")
 	os.system(run + " " +  model + " " + test + " " +  load + " " + dev + " >& " + str(PACKAGE_PATH) + "/log.txt")
-	print("Inference finished - you can check the result in 'log.txt'")
+	print("Inference finished - you can check the log in 'log.txt' or the results in 'output/'")
 
 def moveOutput() -> None:
 	path_output = str(PACKAGE_PATH) + "/deepmedic/inference_model/output/predictions/test_t1w+flair/predictions"
 	cwd = os.getcwd()
 	os.chdir(PACKAGE_PATH)
-	os.mkdir("output")
+	if not os.path.isdir("output"):
+		os.mkdir("output")
 	os.chdir(path_output)
 	os.system("rename _WMH_Segm.nii.gz _WMH.nii.gz *_WMH_Segm.nii.gz")
 	os.system("mv *_WMH.nii.gz " + str(PACKAGE_PATH) + "/output")
+	os.system("rm *")
 	os.chdir(cwd)
