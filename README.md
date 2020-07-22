@@ -1,5 +1,4 @@
 # DeepMedic-Pipeline
-=====================
 
 ## 1. Introduction
 ...
@@ -64,18 +63,13 @@ This is the basic format to run the software:
 
 > `run.py` is located in the pipeline directory
 
-> <option> : choose among 1~3
-
+> `<option>` : choose among 1~3
 >> 1 : Create Virtual Environment
-
 >> 2 : Install Dependencies
-
 >> 3 : Run Inference
 
-> [pathToData GPU] : arguments needed if <option> is `3`
-
+> `[pathToData GPU]` : arguments needed if <option> is `3`
 >> pathToData : refers to path to the directory where the data to run the inference on is located
-
 >> GPU : specifies which GPU to use for inference (if using CPU use `-1`)
 
 ### 3.2 Setup
