@@ -1,16 +1,18 @@
 # DeepMedic-Pipeline
 
 ## 1. Introduction
-...
-Meant for Linux
+
+This is a pipeline 
 
 ## 2. Installation and Requirements
 
 ### 2.1. CUDA Installation
 
-GPU processing is most likely required, especially if working with large amount of data.
+Although CPU usage is supported, GPU processing is most likely required, especially if working with large amount of data.
 
 Please follow the [guide in DeepMedic](https://github.com/deepmedic/deepmedic/blob/master/documentation/README.md#13-gpu-processing) to set up CUDA and cuDNN.
+
+> Note: As of now, this pipeline is only compatible with CUDA 9.0
 
 ### 2.2. Python 3.6
 
@@ -24,6 +26,8 @@ You can create a Conda environment that uses Python 3.6 at a specific directory 
 
 `conda create -p path/to/myEnv python=3.6`
 
+> Note: Once you are done using the pipeline, you can deactivate it using the command: `conda deactivate`
+
 ### 2.3 Clone Repository
 
 You can download the pipeline through Github by using the following command:
@@ -36,7 +40,7 @@ In order to run the pipeline without problems, the following two requirements mu
 
 #### DeepMedic Guideline
 
-Data must be pre-processed according to [DeepMedic's guidlines](https://github.com/deepmedic/deepmedic/blob/master/documentation/README.md#14-required-data-pre-processing).
+Data must be pre-processed according to [DeepMedic's guidelines](https://github.com/deepmedic/deepmedic/blob/master/documentation/README.md#14-required-data-pre-processing).
 
 #### BIDS Format
 
@@ -57,11 +61,11 @@ Data must be in [BIDS format](https://bids.neuroimaging.io/).
 
 This is the basic format to run the software:
 
-`python3 run.py <option> [pathToData GPU]`
+`python3 wmh_seg_deepmedic.py <option> [pathToData GPU]`
 
 > Note
 > ---
-> `run.py` is located in the pipeline directory
+> `wmh_seg_deepmedic.py` is located in the pipeline directory
 >
 > `<option>` : choose among 1~3
 >> 1 : Create Virtual Environment
@@ -86,7 +90,7 @@ A virtual environment must be created before installing dependencies.
 
 It can be created with the following command:
 
-`python3 run.py 1`
+`python3 wmh_seg_deepmedic.py 1`
 
 #### Activating Virtual Environment
 
@@ -102,7 +106,7 @@ You can activate the virtual environment by using the following command:
 
 Once the virtual environment is activated, you can install the dependencies using the following command:
 
-`python3 run.py 2`
+`python3 wmh_seg_deepmedic.py 2`
 
 ### 3.3 Running Inference
 
@@ -120,7 +124,7 @@ Please [activate the virtual environment](#activating-virtual-environment) befor
 
 You can run inference by using the following command:
 
-`python3 run.py 3 path/to/data gpuNumber`
+`python3 wmh_seg_deepmedic.py 3 path/to/data gpuNumber`
 
 > Refer to [this](#31-how-to-run) for more information.
 
