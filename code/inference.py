@@ -125,10 +125,11 @@ def moveOutput() -> None:
 	os.chdir(PACKAGE_PATH)
 	if not os.path.isdir("output"):
 		os.mkdir("output")
-	os.chdir(path_output)
-	os.system("rename _WMH_Segm.nii.gz _WMH.nii.gz *_WMH_Segm.nii.gz")
-	os.system("mv *_WMH.nii.gz " + str(PACKAGE_PATH) + "/output")
-	os.system("rm *")
+	if os.path.isdir(path_output):
+		os.chdir(path_output)
+		os.system("rename _WMH_Segm.nii.gz _WMH.nii.gz *_WMH_Segm.nii.gz")
+		os.system("mv *_WMH.nii.gz " + str(PACKAGE_PATH) + "/output")
+		os.system("rm *")
 	os.chdir(cwd)
 
 def revertCfgs() -> None:
