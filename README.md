@@ -60,9 +60,9 @@ This is the basic format to run the software:
 `python3 run.py <option> [pathToData GPU]`
 
 > Note:
-
+>
 > `run.py` is located in the pipeline directory
-
+>
 > `<option>` : choose among 1~3
 >> 1 : Create Virtual Environment
 >>
@@ -127,7 +127,7 @@ You can run inference by using the following command:
 The output will be located in the `output` folder in the pipeline directory
 
 > Note
-> ---
-[Deactivate the virtual environment](#activating-virtual-environment) once done with inference.
+>
+> [Deactivate the virtual environment](#activating-virtual-environment) once done with inference.
 
 ## References
