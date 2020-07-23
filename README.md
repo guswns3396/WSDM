@@ -2,7 +2,7 @@
 
 ## 1. Introduction
 
-This is a pipeline 
+This is a pipeline designed to make running inference on our model that was created using [DeepMedic](https://github.com/deepmedic/deepmedic) *v0.7.4* easier. The model aims to segment White Matter Hyper-Intensities in MRI images of the brain using T1-weighted and FLAIR images.
 
 ## 2. Installation and Requirements
 
@@ -133,3 +133,7 @@ The output will be located in the `output` folder in the pipeline directory
 > Note: [Deactivate the virtual environment](#activating-virtual-environment) once done with inference.
 
 ## References
+
+[1] Konstantinos Kamnitsas, Christian Ledig, Virginia F.J. Newcombe, Joanna P. Simpson, Andrew D. Kane, David K. Menon, Daniel Rueckert, and Ben Glocker, “Efficient Multi-Scale 3D CNN with Fully Connected CRF for Accurate Brain Lesion Segmentation”, Medical Image Analysis, 2016.
+
+[2] Konstantinos Kamnitsas, Liang Chen, Christian Ledig, Daniel Rueckert, and Ben Glocker, “Multi-Scale 3D CNNs for segmentation of brain Lesions in multi-modal MRI”, in proceeding of ISLES challenge, MICCAI 2015.
