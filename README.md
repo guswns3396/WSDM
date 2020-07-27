@@ -32,7 +32,7 @@ You can create a Conda environment that uses Python 3.6 at a specific directory 
 
 You can download the pipeline through Github by using the following command:
 
-`git clone https://github.com/guswns3396/DeepMedic-Package.git`
+`git clone https://github.com/guswns3396/WSDM.git`
 
 ### 2.4 Required Data Pre-Processing
 
