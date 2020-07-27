@@ -1,4 +1,4 @@
-# DeepMedic-Pipeline
+# WSDM Pipeline
 
 ## 1. Introduction
 
@@ -134,6 +134,8 @@ The output will be located in the `output` folder in the pipeline directory
 
 ## References
 
-[1] Konstantinos Kamnitsas, Christian Ledig, Virginia F.J. Newcombe, Joanna P. Simpson, Andrew D. Kane, David K. Menon, Daniel Rueckert, and Ben Glocker, “Efficient Multi-Scale 3D CNN with Fully Connected CRF for Accurate Brain Lesion Segmentation”, Medical Image Analysis, 2016.
+Sepehrband, F., Barisano, G., Yang, H.-J., Choupan, J. & Toga, A. W. WMH and PVS mapping from clinical data using semi-supervised multi-modal convolutional neural network. in International Society for Magnetic Resonance in Medicine (ISMRM) (2020).
 
-[2] Konstantinos Kamnitsas, Liang Chen, Christian Ledig, Daniel Rueckert, and Ben Glocker, “Multi-Scale 3D CNNs for segmentation of brain Lesions in multi-modal MRI”, in proceeding of ISLES challenge, MICCAI 2015.
+Konstantinos Kamnitsas, Christian Ledig, Virginia F.J. Newcombe, Joanna P. Simpson, Andrew D. Kane, David K. Menon, Daniel Rueckert, and Ben Glocker, “Efficient Multi-Scale 3D CNN with Fully Connected CRF for Accurate Brain Lesion Segmentation”, Medical Image Analysis, 2016.
+
+Konstantinos Kamnitsas, Liang Chen, Christian Ledig, Daniel Rueckert, and Ben Glocker, “Multi-Scale 3D CNNs for segmentation of brain Lesions in multi-modal MRI”, in proceeding of ISLES challenge, MICCAI 2015.
