@@ -53,7 +53,7 @@ Data must be in [BIDS format](https://bids.neuroimaging.io/).
 >>> anat/
 >>>> subject-01_T1W.nii.gz
 >>>>
->>>> subject-01_WMH.nii.gz
+>>>> subject-01_FLAIR.nii.gz
 
 ## 3. Running the Software
 
